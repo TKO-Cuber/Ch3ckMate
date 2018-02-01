@@ -8,8 +8,8 @@
  
  ::Get some needed stuff from user
  SET emailFrom=ch3ckmatetss@gmail.com
- SET body=Hey there! Some changes have occured in the TSS server! Go and check your script to see!
- SET subject=TSS SERVER SIGNING CHANGED!
+ SET body=Hey there some changes have occured in the TSS server signing... Go and check your script to see.
+ SET subject=TSS SIGNING STATUES CHANGED
  set /p ECID=Please enter your ECID here ^>^>^>^>
  cls
  set /p DeviceModel=What is your device model? (iPhone7,2 for example) ^>^>^>^>
@@ -22,36 +22,47 @@
  
  :Start
  cd Programs
+ cls
+ 
+  ::Check iOS 11.2.5
+  :11.2.5
+ echo Checking iOS 11.2.5
+ tsschecker_windows.exe -d %DeviceModel% --buildid 15D60 >output.txt
+  >nul find "Build 15D60 for device %DeviceModel% IS being signed!" output.txt && (
+      echo iOS 11.2.5 IS BEING SIGNED! SAVING BLOBS!
+      >nul tsschecker_windows.exe -d %DeviceModel% --buildid 15D60 -e %ECID% -s
+      goto 11.2.5_c
+    ) || (
+      echo iOS 11.2.5 is not being signed for the %DeviceModel%
+      goto 11.2.5_finish
+    )
+	  :11.2.5_c
+	  IF "%SendMail%"=="yes" (
+	    goto 11.2.5_m
+	  )
+	  else (
+	    goto 11.2.5_f
+	  )
+	  :: If not signed
+	  ) || (
+        echo iOS 11.2.2 is not being signed for the %DeviceModel%
+		goto 11.2.5_finish
+      )
+		:11.2.5_m
+	    cd blat
+	      blat -mailfrom "%emailFrom%" -to "%emailRecipient%" -body "%body%" -subject "%subject%" -server "smtp.gmail.com" -port "25" -f "ch3ckmatetss@gmail.com"
+		  goto 11.2.5_f
+		  :11.2.5_f
+	      cd ../../..
+	      echo.
+		  pause
+		  goto 11.2.2
+
+ 
+ 
+ 
  
  ::Check iOS 11.2.2
+ :11.2.2
  echo Checking iOS 11.2.2
- tsschecker_windows.exe -d %DeviceModel% --buildid 15C202 >output.txt
- >nul findstr /c:"Build 15C202 for device %DeviceModel% IS being signed!" output1.txt && (
-    echo iOS 11.2.2 IS BEING SIGNED! SAVING BLOBS!
-	tsschecker_windows.exe -d %DeviceModel% --buildid 15C202 -e %ECID% -s >NUL
-	::Send mail
-	cd Programs
-	cd blat
-	blat.exe -mailfrom %emailFrom% -to %emailRecipient% -body "%body%" -subject "%subj%" -server localhost
-      ) || (
-    echo.
-	cd ../../..
-  )
-  pause
-  
- ::Check iOS 11.2.5
- echo Checking iOS 11.2.5
- tsschecker_windows.exe -d %DeviceModel% --buildid 15D60 >output1.txt
- cd Output
- >nul findstr /c:"Build 15D60 for device %DeviceModel% IS being signed!" output1.txt && (
-    echo iOS 11.2.5 IS BEING SIGNED! SAVING BLOBS!
-	tsschecker_windows.exe -d %DeviceModel% --buildid 15D60 -e %ECID% -s >NUL
-	::Send mail
-	cd Programs
-	cd blat
-	blat.exe -mailfrom %emailFrom% -to %emailRecipient% -body "%body%" -subject "%subj%" -server localhost
-      ) || (
-    echo.
-	cd ../../..
-  )
-  pause
+ pause
