@@ -1,0 +1,14 @@
+Version: af9b9f2998bdeca7ece0829c2e718ae747745750 - 170
+[TSSC] opening firmware.json
+[JSON] counting elements
+[JSON] parsing elements
+[TSSC] using cached Buildmanifest for iPhone7,2_15C202
+[TSSC] opening bbgcid.json
+[JSON] counting elements
+[JSON] parsing elements
+[Error] [TSSC] parsing bbgcid.json failed!
+[WARNING] [TSSR] WARNING: there was an error getting BasebandGoldCertID, continuing without requesting Baseband ticket
+[TSSR] Request URL set to https://gs.apple.com/TSS/controller?action=2
+[TSSR] Sending TSS request attempt 1... failure
+
+Build 15C202 for device iPhone7,2 IS NOT being signed!
